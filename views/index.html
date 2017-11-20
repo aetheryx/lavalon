@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Lavalon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+  </head>
+  <body>
+    <div style="text-align: center">
+      <h2 style="color: black;">Add song by URL</h2>
+      <input onpaste="readURL()" onkeypress="readURL()" class="input" type="text" name="url" id="urlBox">
+    </div>
+
+    <div style="text-align: center" id="songList">
+    </div>
+    
+    <div id="playpause">
+    </div>
+
+  <script src="./script.js"></script> 
+  </body>
+</html>
