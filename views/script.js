@@ -73,15 +73,18 @@ function renderSongDiv (index) {
   const btns = document.createElement('div');
   btns.className = 'level-right';
 
-  const deleteBtn = document.createElement('a');
+  const deleteBtn = document.createElement('button');
   deleteBtn.className = 'button is-danger is-small';
   deleteBtn.innerHTML = 'Delete';
   btns.appendChild(deleteBtn);
 
-  const playBtn = document.createElement('a');
+  const playBtn = document.createElement('button');
   playBtn.className = 'button is-primary is-small';
   playBtn.innerHTML = 'Play';
   playBtn.onclick = () => {
+    if (parent.className.includes('fadein')) {
+      parent.className = parent.className.replace('fadein ', '');
+    }
     playSong(index);
   }
   btns.appendChild(playBtn);
@@ -93,9 +96,6 @@ function renderSongDiv (index) {
   }
 
   songList.appendChild(parent);
-  setTimeout(() => {
-    parent.className = parent.className.replace('fadein ', '');
-  }, 750)
 }
 
 function PausePlay () {

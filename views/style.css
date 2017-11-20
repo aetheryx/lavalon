@@ -26,8 +26,8 @@ body, html {
     color: #000000
 }
 
-a.button {
-    margin-left: 5%;
+button.button {
+    margin-left: 1%;
     border-radius: 5px;
 }
 
