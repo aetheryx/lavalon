@@ -54,7 +54,7 @@ function playSong (index) {
     playing.className = playing.className.replace('playing', 'playing-end');
     setTimeout(() => {
       playing.className = playing.className.replace('playing-end', '');
-    }, 500);
+    }, 750);
   }
   document.querySelector(`.song[index="${index}"]`).className += ' playing';
 }
@@ -81,7 +81,9 @@ function renderSongDiv (index) {
   const playBtn = document.createElement('a');
   playBtn.className = 'button is-primary is-small';
   playBtn.innerHTML = 'Play';
-  playBtn.onclick = () => playSong(index);
+  playBtn.onclick = () => {
+    playSong(index);
+  }
   btns.appendChild(playBtn);
 
   children.push(btns);
@@ -91,6 +93,9 @@ function renderSongDiv (index) {
   }
 
   songList.appendChild(parent);
+  setTimeout(() => {
+    parent.className = parent.className.replace('fadein ', '');
+  }, 750)
 }
 
 function PausePlay () {

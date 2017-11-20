@@ -26,26 +26,27 @@ body, html {
     color: #000000
 }
 
-a {
+a.button {
     margin-left: 5%;
+    border-radius: 5px;
 }
 
 @keyframes playingStartAnimation {
-    0%   { background: #2c2f33; }
-    100% { background: #FF0000; }
+    from { background: #2c2f33; }
+    to { background: #f4bf42; }
 }
 
 .playing {
-    animation: playingStartAnimation 0.5s forwards;
+    animation: playingStartAnimation 0.75s forwards;
 }
 
 @keyframes playingFinishAnimation {
-    from { background: #FF0000; }
+    from { background: #f4bf42; }
     to   { background: #2c2f33; }
 }
 
 .playing-end {
-    animation: playingFinishAnimation 0.5s forwards;
+    animation: playingFinishAnimation 0.75s forwards;
 }
 
 @keyframes fadeInAnimation {
