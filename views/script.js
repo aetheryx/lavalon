@@ -49,6 +49,11 @@ function playSong (index) {
     playSong(playIndex);
   };
   currentlyPlaying.play();
+
+  let parent = document.querySelector(`.song[index="${index}"]`);
+  if (parent.className.includes('fadein')) {
+    parent.className = parent.className.replace('fadein ', '');
+  }
   const playing = document.querySelector('.playing');
   if (playing) {
     playing.className = playing.className.replace('playing', 'playing-end');
@@ -82,9 +87,6 @@ function renderSongDiv (index) {
   playBtn.className = 'button is-primary is-small';
   playBtn.innerHTML = 'Play';
   playBtn.onclick = () => {
-    if (parent.className.includes('fadein')) {
-      parent.className = parent.className.replace('fadein ', '');
-    }
     playSong(index);
   }
   btns.appendChild(playBtn);
@@ -98,12 +100,38 @@ function renderSongDiv (index) {
   songList.appendChild(parent);
 }
 
-function PausePlay () {
+function PlayPause () {
+  const button = document.querySelector('button[onclick="PlayPause()"]');
+
+  if (!currentlyPlaying) {
+    button.innerHTML = 'Pause';
+    return playSong(0);
+  }
+
+  const playingSong = document.querySelector(`div[index="${songs.indexOf(currentlyPlaying.src.slice(7).replace(/%20/g, ' '))}"]`);
+
   if (currentlyPlaying.paused) {
+    button.innerHTML = 'Pause';
+    playingSong.className = playingSong.className.replace('paused', 'playing')
     currentlyPlaying.play();
   } else {
+    playingSong.className = playingSong.className.replace('playing', 'playing-end');
+    setTimeout(() => {
+      playingSong.className = playingSong.className.replace('playing-end', 'paused');
+    }, 750);
+    button.innerHTML = 'Play';
     currentlyPlaying.pause();
   }
+}
+
+function playNext () {
+  const currentIndex = songs.indexOf(currentlyPlaying.src.slice(7).replace(/%20/g, ' '));
+  playSong(currentIndex >= songs.length - 1 ? 0 : currentIndex + 1);
+}
+
+function playPrev () {
+  const currentIndex = songs.indexOf(currentlyPlaying.src.slice(7).replace(/%20/g, ' '));
+  playSong(currentIndex - 1 < 0 ? songs.length - 1 : currentIndex - 1);
 }
 
 fs.readdirSync('.')

@@ -14,8 +14,19 @@
 
     <div style="text-align: center" id="songList">
     </div>
-    
-    <div id="playpause">
+
+    <div id="playpause" class="columns is-mobile">
+      <div class="column is-1" style="background: #ffffff"></div>
+        
+      <div class="column"></div>
+
+      <button class="column is-1" onclick="playPrev()"  >Prev</button>
+      <button class="column is-1" onclick="PlayPause()" >Play</button>
+      <button class="column is-1" onclick="playNext()"  >Next</button>
+            
+      <div class="column"></div>
+      <div class="column is-1" style="background: #ffffff"></div>
+      
     </div>
 
   <script src="./script.js"></script> 
