@@ -4,9 +4,11 @@
     "main": "main.js",
     "scripts": {
         "build": "babel src/app -d src/public",
-        "start": "npm run build && electron ."
+        "start": "npm run build && electron .",
+        "lint": "eslint --ext .jsx ."
     },
     "dependencies": {
+        "eslint-plugin-react": "^7.5.1",
         "react": "^16.1.1",
         "react-dom": "^16.1.1",
         "ytdl-core": "^0.18.2"
