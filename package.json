@@ -2,7 +2,18 @@
     "name": "Lavalon",
     "version": "0.1.0",
     "main": "main.js",
+    "scripts": {
+        "build": "babel src/app -d src/public",
+        "start": "npm run build && electron ."
+    },
     "dependencies": {
+        "react": "^16.1.1",
+        "react-dom": "^16.1.1",
         "ytdl-core": "^0.18.2"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-preset-env": "^1.6.1",
+        "babel-preset-react": "^6.24.1"
     }
 }
