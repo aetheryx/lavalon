@@ -5,15 +5,23 @@ import SongList from './SongList';
 import PlayPause from './PlayPause';
 import fs from 'fs';
 
-currentlyPlaying = null;
+let currentlyPlaying;
 let volume;
 
 class App extends React.Component {
   constructor () {
     super();
     this.state = {
-      songs: fs.readdirSync('.').filter(filename => filename.endsWith('.opus'))
+      songs: fs.readdirSync('.').filter(filename => filename.endsWith('.opus')),
+      currentlyPlaying: null
     }
+  }
+
+  setPlayingSong (index) {
+    console.log(index);
+    this.setState({
+      currentlyPlaying: index
+    })
   }
 
   downloadSong (url) {
@@ -32,32 +40,18 @@ class App extends React.Component {
       this.playSong(playIndex);
     };
     currentlyPlaying.play();
-
-
-
-    return;
-
-    let parent = document.querySelector(`.song[index="${index}"]`);
-    if (parent.className.includes('fadein')) {
-      parent.className = parent.className.replace('fadein ', '');
-    }
-    const playing = document.querySelector('.playing');
-    if (playing) {
-      playing.className = playing.className.replace('playing', 'playing-end');
-      setTimeout(() => {
-        playing.className = playing.className.replace('playing-end', '');
-      }, 750);
-    }
-    document.querySelector(`.song[index="${index}"]`).className += ' playing';
   }
 
   renderSongs () {
     return this.state.songs.map(song => 
-      <Song
-        key={this.state.songs.indexOf(song)}
-        songName={song}
-        playSong={this.playSong.bind(this, this.state.songs.indexOf(song))}
-      />
+    <Song
+    key={this.state.songs.indexOf(song)}
+    index={this.state.songs.indexOf(song)}
+    songName={song}
+      playing={this.state.currentlyPlaying === this.state.songs.indexOf(song)}
+      playSong={this.playSong.bind(this, this.state.songs.indexOf(song))}
+      setPlayingSong={this.setPlayingSong.bind(this)}
+    />
     )
   }
 
@@ -65,7 +59,7 @@ class App extends React.Component {
     return (
       <div>
         <URLBox onRead={this.downloadSong.bind(this)} />
-        <div style={{ textAlign: 'center' }}></div>
+        <div style={{ textAlign: 'center' }} />
         <SongList songs={this.renderSongs(this.state.songs)} />
         <PlayPause />
       </div>

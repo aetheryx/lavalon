@@ -52,12 +52,21 @@ var App = function (_React$Component) {
     _this.state = {
       songs: _fs2.default.readdirSync('.').filter(function (filename) {
         return filename.endsWith('.opus');
-      })
+      }),
+      currentlyPlaying: null
     };
     return _this;
   }
 
   _createClass(App, [{
+    key: 'setPlayingSong',
+    value: function setPlayingSong(index) {
+      console.log(index);
+      this.setState({
+        currentlyPlaying: index
+      });
+    }
+  }, {
     key: 'downloadSong',
     value: function downloadSong(url) {}
   }, {
@@ -76,21 +85,6 @@ var App = function (_React$Component) {
         _this2.playSong(playIndex);
       };
       currentlyPlaying.play();
-
-      return;
-
-      var parent = document.querySelector('.song[index="' + index + '"]');
-      if (parent.className.includes('fadein')) {
-        parent.className = parent.className.replace('fadein ', '');
-      }
-      var playing = document.querySelector('.playing');
-      if (playing) {
-        playing.className = playing.className.replace('playing', 'playing-end');
-        setTimeout(function () {
-          playing.className = playing.className.replace('playing-end', '');
-        }, 750);
-      }
-      document.querySelector('.song[index="' + index + '"]').className += ' playing';
     }
   }, {
     key: 'renderSongs',
@@ -100,8 +94,11 @@ var App = function (_React$Component) {
       return this.state.songs.map(function (song) {
         return _react2.default.createElement(_Song2.default, {
           key: _this3.state.songs.indexOf(song),
+          index: _this3.state.songs.indexOf(song),
           songName: song,
-          playSong: _this3.playSong.bind(_this3, _this3.state.songs.indexOf(song))
+          playing: _this3.state.currentlyPlaying === _this3.state.songs.indexOf(song),
+          playSong: _this3.playSong.bind(_this3, _this3.state.songs.indexOf(song)),
+          setPlayingSong: _this3.setPlayingSong.bind(_this3)
         });
       });
     }

@@ -24,25 +24,26 @@ var Song = function (_React$Component) {
   function Song() {
     _classCallCheck(this, Song);
 
-    var _this = _possibleConstructorReturn(this, (Song.__proto__ || Object.getPrototypeOf(Song)).call(this));
-
-    _this.state = {
-      playing: false
-    };
-    return _this;
+    return _possibleConstructorReturn(this, (Song.__proto__ || Object.getPrototypeOf(Song)).apply(this, arguments));
   }
 
   _createClass(Song, [{
+    key: 'handleClick',
+    value: function handleClick() {
+      this.props.playSong();
+      this.animate();
+    }
+  }, {
     key: 'animate',
-    value: function animate() {}
+    value: function animate() {
+      this.props.setPlayingSong(this.props.index);
+    }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       return _react2.default.createElement(
         'div',
-        { className: 'song fadein container level' },
+        { className: 'song ' + (this.props.playing ? 'playing' : 'fadein') + ' container level' },
         _react2.default.createElement(
           'div',
           { className: 'songName level-left' },
@@ -58,9 +59,7 @@ var Song = function (_React$Component) {
           ),
           _react2.default.createElement(
             'button',
-            { className: 'button is-primary is-small', onClick: function onClick() {
-                _this2.props.playSong();_this2.animate.bind(_this2)();
-              } },
+            { className: 'button is-primary is-small', onClick: this.handleClick.bind(this) },
             'Play'
           )
         )
@@ -72,3 +71,17 @@ var Song = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Song;
+
+/*
+    let parent = document.querySelector(`.song[index="${index}"]`);
+    if (parent.className.includes('fadein')) {
+      parent.className = parent.className.replace('fadein ', '');
+    }
+    const playing = document.querySelector('.playing');
+    if (playing) {
+      playing.className = playing.className.replace('playing', 'playing-end');
+      setTimeout(() => {
+        playing.className = playing.className.replace('playing-end', '');
+      }, 750);
+    }
+    document.querySelector(`.song[index="${index}"]`).className += ' playing';*/
