@@ -8,7 +8,7 @@ function createWindow () {
   win = new BrowserWindow({
     title: 'Lavalon'
   });
-            
+
   win.setMenu(null);
   win.webContents.openDevTools();
 

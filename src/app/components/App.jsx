@@ -14,18 +14,17 @@ class App extends React.Component {
     this.state = {
       songs: fs.readdirSync('.').filter(filename => filename.endsWith('.opus')),
       currentlyPlaying: null
-    }
+    };
   }
 
   setPlayingSong (index) {
-    console.log(index);
     this.setState({
       currentlyPlaying: index
-    })
+    });
   }
 
   downloadSong (url) {
-    
+
   }
 
   playSong (index) {
@@ -33,7 +32,7 @@ class App extends React.Component {
     if (currentlyPlaying) {
       currentlyPlaying.pause();
     }
-    currentlyPlaying = new Audio('../' + songs[index]);
+    currentlyPlaying = new Audio(`../${songs[index]}`);
     currentlyPlaying.volume = volume || 1;
     currentlyPlaying.onended = () => {
       const playIndex = index >= songs.length - 1 ? 0 : index + 1;
@@ -43,16 +42,16 @@ class App extends React.Component {
   }
 
   renderSongs () {
-    return this.state.songs.map(song => 
-    <Song
-    key={this.state.songs.indexOf(song)}
-    index={this.state.songs.indexOf(song)}
-    songName={song}
-      playing={this.state.currentlyPlaying === this.state.songs.indexOf(song)}
-      playSong={this.playSong.bind(this, this.state.songs.indexOf(song))}
-      setPlayingSong={this.setPlayingSong.bind(this)}
-    />
-    )
+    return this.state.songs.map(song =>
+      <Song
+        key={this.state.songs.indexOf(song)}
+        index={this.state.songs.indexOf(song)}
+        songName={song}
+        playing={this.state.currentlyPlaying === this.state.songs.indexOf(song)}
+        playSong={this.playSong.bind(this, this.state.songs.indexOf(song))}
+        setPlayingSong={this.setPlayingSong.bind(this)}
+      />
+    );
   }
 
   render () {
@@ -63,7 +62,7 @@ class App extends React.Component {
         <SongList songs={this.renderSongs(this.state.songs)} />
         <PlayPause />
       </div>
-    )
+    );
   }
 }
 

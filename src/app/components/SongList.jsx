@@ -5,7 +5,7 @@ class SongList extends React.Component {
     super();
     this.state = {
       currentlyPlaying: null
-    }
+    };
   }
 
   render () {
@@ -13,7 +13,7 @@ class SongList extends React.Component {
       <div style={{ textAlign: 'center' }} id='songlist'>
         {this.props.songs}
       </div>
-    )
+    );
   }
 }
 
