@@ -23,8 +23,17 @@ class App extends React.Component {
     });
   }
 
-  downloadSong (url) {
+  async downloadSong (url) {
+    const info = await ytdl.getInfo(url);
 
+    const filename = `${info.title}.opus`;
+    const stream = fs.createWriteStream(filename);
+    const pipe = ytdl(url, { filter: 'audioonly' })
+      .pipe(stream);
+
+    pipe.on('finish', () => {
+      console.log(filename);
+    });
   }
 
   playSong (index) {
@@ -57,7 +66,7 @@ class App extends React.Component {
   render () {
     return (
       <div>
-        <URLBox onRead={this.downloadSong.bind(this)} />
+        <URLBox downloadSong={this.downloadSong.bind(this)} />
         <div style={{ textAlign: 'center' }} />
         <SongList songs={this.renderSongs(this.state.songs)} />
         <PlayPause />
