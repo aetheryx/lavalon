@@ -13,8 +13,9 @@
         "ytdl-core": "^0.18.2"
     },
     "devDependencies": {
-      "eslint-plugin-react": "^7.5.1",
-      "babel-cli": "^6.26.0",
-      "babel-preset-react": "^6.24.1"
+        "babel-cli": "^6.26.0",
+        "babel-preset-import-export": "^1.0.2",
+        "babel-preset-react": "^6.24.1",
+        "eslint-plugin-react": "^7.5.1"
     }
 }
