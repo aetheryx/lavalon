@@ -3,6 +3,7 @@ import URLBox from './URLBox';
 import Song from './Song';
 import SongList from './SongList';
 import PlayPause from './PlayPause';
+import ytdl from 'ytdl-core';
 import fs from 'fs';
 
 let currentlyPlaying;
@@ -32,7 +33,9 @@ class App extends React.Component {
       .pipe(stream);
 
     pipe.on('finish', () => {
-      console.log(filename);
+      this.setState(prev => ({
+        songs: prev.songs.concat([filename])
+      }));
     });
   }
 
