@@ -15,7 +15,6 @@
     "rules": {
         "semi": ["error", "always"],
         "quotes": ["error", "single"],
-        "no-extra-parens": "error",
         "space-before-function-paren": ["error", "always"],
         "no-whitespace-before-property": "error",
         "curly": ["error", "all"],
