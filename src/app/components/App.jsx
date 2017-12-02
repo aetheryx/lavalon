@@ -12,9 +12,15 @@ let volume;
 class App extends React.Component {
   constructor () {
     super();
+
+    const songs = {};
+    for (const song of fs.readdirSync('.').filter(filename => filename.endsWith('.opus'))) {
+      songs[song] = false;
+    }
+
     this.state = {
-      songs: fs.readdirSync('.').filter(filename => filename.endsWith('.opus')),
-      currentlyPlaying: null
+      songs,
+      currentlyPlaying
     };
   }
 
@@ -29,22 +35,40 @@ class App extends React.Component {
 
     const filename = `${info.title}.opus`;
     const stream = fs.createWriteStream(filename);
-    const pipe = ytdl(url, { filter: 'audioonly' })
-      .pipe(stream);
+
+    const song = ytdl(url, { filter: 'audioonly' });
+
+    song.once('response', () => {
+      this.setState(prev => {
+        prev.songs[filename] = 0;
+        return prev;
+      });
+    });
+
+    song.on('progress', (_, current, total) => {
+      this.setState(prev => {
+        prev.songs[filename] = (current / total * 100).toFixed();
+        return prev;
+      });
+    });
+
+    const pipe = song.pipe(stream);
 
     pipe.on('finish', () => {
-      this.setState(prev => ({
-        songs: prev.songs.concat([filename])
-      }));
+      this.setState(prev => {
+        prev.songs[filename] = false;
+        return prev;
+      });
     });
   }
 
   playSong (index) {
-    const songs = this.state.songs;
+    const songs = Object.keys(this.state.songs);
     if (currentlyPlaying) {
       currentlyPlaying.pause();
     }
     currentlyPlaying = new Audio(`../${songs[index]}`);
+    this.setPlayingSong(index);
     currentlyPlaying.volume = volume || 1;
     currentlyPlaying.onended = () => {
       const playIndex = index >= songs.length - 1 ? 0 : index + 1;
@@ -54,13 +78,16 @@ class App extends React.Component {
   }
 
   renderSongs () {
-    return this.state.songs.map(song =>
+    const songList = Object.keys(this.state.songs);
+
+    return songList.map(song =>
       <Song
-        key={this.state.songs.indexOf(song)}
-        index={this.state.songs.indexOf(song)}
+        downloading={this.state.songs[song]}
+        key={songList.indexOf(song)}
+        index={songList.indexOf(song)}
         songName={song}
-        playing={this.state.currentlyPlaying === this.state.songs.indexOf(song)}
-        playSong={this.playSong.bind(this, this.state.songs.indexOf(song))}
+        playing={this.state.currentlyPlaying === songList.indexOf(song)}
+        playSong={this.playSong.bind(this, songList.indexOf(song))}
         setPlayingSong={this.setPlayingSong.bind(this)}
       />
     );

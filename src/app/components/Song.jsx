@@ -11,19 +11,29 @@ class Song extends React.Component {
   }
 
   render () {
-    return (
-      <div className={`song ${this.props.playing ? 'playing' : 'fadein'} container level`}>
-        <div className='songName level-left'>
-          {this.props.songName.split('/').pop().slice(0, -5)}
+    const rightDiv = this.props.downloading ?
+      (
+        <div className='spinner'>
+          <div className='double-bounce1' />
+          <div className='double-bounce2' />
         </div>
+      ) : (
         <div className='level-right'>
           <button className='button is-danger is-small'>
             Delete
           </button>
           <button className='button is-primary is-small' onClick={this.handleClick.bind(this)}>
-          Play
+            Play
           </button>
         </div>
+      );
+
+    return (
+      <div className={`song ${this.props.playing ? 'playing' : 'fadein'} container level`}>
+        <div className='songName level-left'>
+          {this.props.songName.split('/').pop().slice(0, -5)}
+        </div>
+        {rightDiv}
       </div>
     );
   }
