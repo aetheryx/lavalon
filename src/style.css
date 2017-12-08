@@ -18,15 +18,20 @@ body, html {
   right: 0;
   left: 0;
   height: 5%;
-  background: rgb(255, 0, 0);
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .song {
   background-color: #2c2f33;
   border-radius: 7.5px;
+  margin-bottom: 2%;
   width: 100%;
   padding: 1%;
   color: #000000
+}
+
+div.container.level {
+  margin-bottom: 0;
 }
 
 button.button {
@@ -58,13 +63,23 @@ button.button {
   animation: playingFinishAnimation 0.75s forwards;
 }
 
-@keyframes fadeInAnimation {
-  from { opacity: 0 }
-  to { opacity: 1 }
+@keyframes fadeinAnimation {
+  0% { opacity: 0 }
+  25% { opacity: 0 }
+  100% { opacity: 1 }
 }
 
-.fadeIn {
-  animation: fadeInAnimation 0.75s forwards;
+@keyframes fadeinImmediateAnimation {
+  0% { opacity: 0 }
+  100% { opacity: 1 }
+}
+
+.fadein {
+  animation: fadeinAnimation 1.5s forwards;
+}
+
+.fadeinImmediate {
+  animation: fadeinImmediateAnimation 2s forwards;  
 }
 
 
@@ -110,3 +125,22 @@ button.button {
     -webkit-transform: scale(1.0);
   }
 }
+
+.progress-outer {
+  width: 90%;
+  border-radius: 5px;
+  display: inline-block;
+  background-color: white;
+}
+
+.progress-inner {
+  height: 1%;
+  border-radius: 5px;
+  background-color: red;
+}
+
+i.fas {
+  transition: opacity 0.5s ease-in-out;
+}
+
+ /* https://www.youtube.com/watch?v=fT-KWU5cWrw */

@@ -1,9 +1,25 @@
 import React from 'react';
 
 class Song extends React.Component {
+  constructor (state) {
+    super(state);
+
+    this.state = {
+      rendered: false
+    };
+  }
+
   handleClick () {
     this.props.playSong();
     this.animate();
+  }
+
+  componentDidMount () {
+    setTimeout(() => {
+      this.setState({
+        rendered: true
+      });
+    }, 1500); // amount of time for the animation to finish
   }
 
   animate () {
@@ -11,29 +27,39 @@ class Song extends React.Component {
   }
 
   render () {
-    const rightDiv = this.props.downloading ?
-      (
-        <div className='spinner'>
-          <div className='double-bounce1' />
-          <div className='double-bounce2' />
-        </div>
-      ) : (
-        <div className='level-right'>
-          <button className='button is-danger is-small'>
-            Delete
-          </button>
-          <button className='button is-primary is-small' onClick={this.handleClick.bind(this)}>
-            Play
-          </button>
-        </div>
-      );
+    let outerClassName = 'song';
+    if (!this.state.rendered) {
+      outerClassName += ' fadein';
+    }
+    if (this.props.playing) {
+      outerClassName += ' playing';
+    }
+
 
     return (
-      <div className={`song ${this.props.playing ? 'playing' : 'fadein'} container level`}>
-        <div className='songName level-left'>
-          {this.props.songName.split('/').pop().slice(0, -5)}
+      <div className={outerClassName}>
+        <div className='container level'>
+          <div className='songName level-left'>
+            {this.props.songName.split('/').pop().slice(0, -5)}
+          </div>
+          {!this.props.downloading ? (
+            <div className='level fadeinImmediate'>
+              <button className='button is-danger is-small'>
+                Delete
+              </button>
+              <button className='button is-primary is-small' onClick={this.handleClick.bind(this)}>
+                Play
+              </button>
+            </div>
+          ) : null}
         </div>
-        {rightDiv}
+        {this.props.downloading ? (
+          <div className='level'>
+            <div className='progress-outer'>
+              <div className='progress-inner' style={{ width: `${this.props.downloading}%` }} />
+            </div>
+          </div>
+        ) : null}
       </div>
     );
   }
